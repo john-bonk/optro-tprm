@@ -1,0 +1,68 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.objHero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 22px 30px;
+  flex-shrink: 0;
+}
+.objNameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.objName {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.tabRow {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  display: flex;
+  padding: 0 26px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.tabBtn {
+  background: none;
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-faint);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color .12s, border-color .12s;
+  white-space: nowrap;
+}
+.tabBtn:hover { color: var(--text-soft); }
+.tabActive {
+  color: var(--navy);
+  font-weight: 600;
+  border-bottom-color: var(--navy);
+}
+.tabDivider {
+  color: var(--text-faint);
+  padding: 0 8px;
+  font-size: 22px;
+  line-height: 1;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.tabContent {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+}
