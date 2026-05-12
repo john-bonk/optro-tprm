@@ -27,8 +27,7 @@ interface State {
 type Action =
   | { type: 'set_tier'; tier: Tier }
   | { type: 'accept_tier' }
-  | { type: 'docs_received_phase1' }
-  | { type: 'docs_received_phase2' }
+  | { type: 'docs_received' }
   | { type: 'start_assessments' }
   | { type: 'set_phase'; phase: LifecyclePhase }
   | { type: 'select_step'; step: number }
@@ -73,11 +72,7 @@ function reducer(state: State, action: Action): State {
         nextActivityId: state.nextActivityId + 1,
       };
     }
-    case 'docs_received_phase1': {
-      // Step B in animation chain — just an interim flag isn't needed; phase2 progresses state.
-      return state;
-    }
-    case 'docs_received_phase2': {
+    case 'docs_received': {
       return {
         ...state,
         docsRequested: true,
@@ -165,7 +160,7 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
     docsTimers.current = [];
     docsTimers.current.push(window.setTimeout(() => {
       docsTimers.current.push(window.setTimeout(() => {
-        dispatch({ type: 'docs_received_phase2' });
+        dispatch({ type: 'docs_received' });
         // 700ms after that, outside-in intel activity
         docsTimers.current.push(window.setTimeout(() => {
           dispatch({

@@ -6,10 +6,9 @@ import TierOverrideMenu from '../overview/TierOverrideMenu';
 
 interface Props {
   out: SubstepOutput;
-  isDocumentsSubstep?: boolean;
 }
 
-export default function SubstepOutputRenderer({ out, isDocumentsSubstep }: Props) {
+export default function SubstepOutputRenderer({ out }: Props) {
   if (out.kind === 'text') {
     return <div className={styles.pvText}>{out.content}</div>;
   }
@@ -81,11 +80,7 @@ export default function SubstepOutputRenderer({ out, isDocumentsSubstep }: Props
     return <TierOutput />;
   }
   if (out.kind === 'documents') {
-    return <DocumentsOutput
-      summaryDefault={out.summary}
-      rows={out.rows}
-      hideRequestBtn={isDocumentsSubstep === false}
-    />;
+    return <DocumentsOutput summaryDefault={out.summary} rows={out.rows} />;
   }
   return null;
 }
@@ -152,7 +147,6 @@ const tierSignals = [
 interface DocumentsOutputProps {
   summaryDefault: string;
   rows: { name: string; source: string; status: 'received' | 'missing' }[];
-  hideRequestBtn?: boolean;
 }
 
 function DocumentsOutput({ summaryDefault, rows }: DocumentsOutputProps) {
