@@ -1,0 +1,55 @@
+/* Source pills */
+.source {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+}
+.zip        { background: var(--indigo-bg); color: var(--indigo-text); }
+.jira       { background: var(--sky-bg-mid); color: var(--sky-mid); }
+.servicenow { background: var(--t2-bg-soft); color: var(--t2-text); }
+.coupa      { background: var(--green-bg-soft); color: var(--green-text); }
+
+/* Status pills (managed table) */
+.status {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+}
+.intake    { background: var(--indigo-bg); color: var(--indigo-text); }
+.approved  { background: var(--green-bg-soft); color: var(--green-text); }
+.inReview  { background: #fff; color: var(--sky-text); border: 1px solid var(--sky-soft); padding: 3px 11px; }
+.archived  { background: var(--surface-mute); color: var(--text-faint); }
+
+/* Tier pills */
+.tier {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+}
+.tier1 { background: var(--t1-bg-soft); color: var(--t1-text); }
+.tier2 { background: var(--t2-bg-soft); color: var(--t2-text); }
+.tier3 { background: var(--green-bg-soft); color: var(--green-text); }
+
+/* Risk score pills */
+.score {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  display: inline-block;
+  min-width: 36px;
+  text-align: center;
+}
+.scoreLow  { background: var(--green-bg-soft); color: var(--green-text); }
+.scoreMed  { background: var(--t2-bg-soft); color: var(--t2-text); }
+.scoreHigh { background: var(--t1-bg-soft); color: var(--t1-text); }

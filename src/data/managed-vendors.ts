@@ -1,0 +1,25 @@
+import type { ManagedVendor } from '../types';
+
+export const managedVendorsSeed: ManagedVendor[] = [
+  { id: 'acme',        name: 'Acme Cloud Co.',            type: 'Vendor',   status: 'Intake',    tier: 2, score: null, lastQ: null,            owner: 'Sarah Chen',    hidden: true, link: true },
+  { id: 'salesforce',  name: 'Salesforce Inc.',           type: 'Vendor',   status: 'Approved',  tier: 1, score: 72,   lastQ: 'Mar 15, 2026',  owner: 'Sarah Chen' },
+  { id: 'aws',         name: 'AWS (Amazon Web Services)', type: 'Vendor',   status: 'Approved',  tier: 1, score: 45,   lastQ: 'Feb 28, 2026',  owner: 'James Park' },
+  { id: 'workday',     name: 'Workday',                   type: 'Vendor',   status: 'In Review', tier: 2, score: 38,   lastQ: 'Apr 1, 2026',   owner: 'Maria Santos' },
+  { id: 'zoom',        name: 'Zoom Video Communications', type: 'Vendor',   status: 'Approved',  tier: 2, score: 22,   lastQ: 'Jan 20, 2026',  owner: 'David Kim' },
+  { id: 'okta',        name: 'Okta Inc.',                 type: 'Vendor',   status: 'In Review', tier: 1, score: null, lastQ: null,            owner: 'Lisa Wang' },
+  { id: 'snowflake',   name: 'Snowflake',                 type: 'IT Asset', status: 'Approved',  tier: 1, score: 55,   lastQ: 'Mar 10, 2026',  owner: 'Tom Bradley' },
+  { id: 'slack',       name: 'Slack Technologies',        type: 'Vendor',   status: 'Archived',  tier: 3, score: 18,   lastQ: 'Nov 5, 2025',   owner: 'Sarah Chen' },
+  { id: 'netsuite',    name: 'NetSuite',                  type: 'IT Asset', status: 'Intake',    tier: 2, score: null, lastQ: null,            owner: 'James Park' },
+  { id: 'azure',       name: 'Microsoft Azure',           type: 'Vendor',   status: 'Approved',  tier: 1, score: 41,   lastQ: 'Mar 22, 2026',  owner: 'Rachel Kim' },
+  { id: 'hubspot',     name: 'HubSpot',                   type: 'Vendor',   status: 'In Review', tier: 2, score: null, lastQ: 'Apr 10, 2026',  owner: 'Dana Nguyen' },
+  { id: 'zendesk',     name: 'Zendesk',                   type: 'Vendor',   status: 'Approved',  tier: 2, score: 29,   lastQ: 'Feb 14, 2026',  owner: 'Chris Walters' },
+  { id: 'calendly',    name: 'Calendly',                  type: 'Vendor',   status: 'Intake',    tier: 3, score: null, lastQ: null,            owner: 'Alex Moore' },
+  { id: 'gcp',         name: 'Google Cloud Platform',     type: 'IT Asset', status: 'Approved',  tier: 1, score: 61,   lastQ: 'Mar 5, 2026',   owner: 'Priya Sharma' },
+  { id: 'crowdstrike', name: 'CrowdStrike',               type: 'Vendor',   status: 'In Review', tier: 1, score: null, lastQ: 'Apr 15, 2026',  owner: 'Lena Torres' },
+  { id: 'docusign',    name: 'DocuSign',                  type: 'Vendor',   status: 'Approved',  tier: 2, score: 34,   lastQ: 'Jan 30, 2026',  owner: 'Maria Santos' },
+  { id: 'twilio',      name: 'Twilio',                    type: 'Vendor',   status: 'Approved',  tier: 2, score: 31,   lastQ: 'Feb 8, 2026',   owner: 'David Kim' },
+  { id: 'github',      name: 'GitHub',                    type: 'Vendor',   status: 'Approved',  tier: 1, score: 28,   lastQ: 'Mar 18, 2026',  owner: 'James Park' },
+  { id: 'datadog',     name: 'Datadog',                   type: 'Vendor',   status: 'Approved',  tier: 2, score: 36,   lastQ: 'Feb 22, 2026',  owner: 'Priya Sharma' },
+  { id: 'mongodb',     name: 'MongoDB Atlas',             type: 'IT Asset', status: 'In Review', tier: 1, score: null, lastQ: 'Apr 8, 2026',   owner: 'Lisa Wang' },
+  { id: 'stripe',      name: 'Stripe',                    type: 'Vendor',   status: 'Approved',  tier: 1, score: 52,   lastQ: 'Mar 28, 2026',  owner: 'Dana Nguyen' },
+];
