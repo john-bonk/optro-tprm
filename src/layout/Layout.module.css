@@ -1,0 +1,13 @@
+.app {
+  display: grid;
+  grid-template-columns: 64px 220px 1fr;
+  grid-template-rows: 54px 1fr;
+  height: 100vh;
+}
+
+.main {
+  overflow-y: auto;
+  background: var(--bg-warm);
+  display: flex;
+  flex-direction: column;
+}

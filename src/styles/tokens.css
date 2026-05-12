@@ -1,0 +1,137 @@
+:root {
+  /* Surfaces */
+  --bg-warm:        #F4F3EF;
+  --bg-warm-soft:   #FAFAF8;
+  --surface:        #FFFFFF;
+  --surface-mute:   #F0EFEB;
+
+  /* Borders */
+  --border:         #EDECE6;
+  --border-strong:  #E0DED5;
+  --border-input:   #C8C6BE;
+
+  /* Text */
+  --text:           #1C1C1A;
+  --text-soft:      #3A3936;
+  --text-muted:     #5F5E5A;
+  --text-faint:     #888780;
+  --text-disabled:  #B0AEA6;
+
+  /* Brand / navy */
+  --navy:           #1A3A5C;
+  --navy-hover:     #0C447C;
+  --navy-hover-alt: #234A75;
+  --sky:            #5BA4E8;
+  --sky-soft:       #9DC4EF;
+  --sky-bg:         #EBF3FC;
+  --sky-text:       #185FA5;
+  --sky-mid:        #1565D8;
+  --sky-bg-mid:     #DDEBFC;
+  --sky-bg-deeper:  #C8DCF0;
+  --sky-bg-faint:   #DEEDFA;
+
+  /* AI / indigo */
+  --indigo:         #4F44B8;
+  --indigo-dark:    #4338CA;
+  --indigo-text:    #5B43B5;
+  --indigo-bg:      #EEEAFC;
+  --indigo-bg-2:    #EFEDFB;
+  --indigo-border:  #DDD6F8;
+  --indigo-border-2:#C9C2F0;
+  --indigo-soft:    #5145C2;
+  --indigo-grad:    linear-gradient(120deg, #4338CA 0%, #6E5BC8 100%);
+  --indigo-dot:     #6E5BC8;
+  --indigo-and:     #E5E1F6;
+
+  /* Tier 1 — Critical (red) */
+  --t1-text:        #993C1D;
+  --t1-bg-soft:     #FCDED2;
+  --t1-border:      #E8A080;
+  --t1-bg-solid:    #E54B2B;
+
+  /* Tier 2 — Standard (amber) */
+  --t2-text:        #854F0B;
+  --t2-bg-soft:     #FCE9C8;
+  --t2-bg-cream:    #FAEEDA;
+  --t2-border:      #E8C060;
+
+  /* Tier 3 — Low Risk (green) */
+  --green-text:     #27500A;
+  --green-text-alt: #3B6D11;
+  --green-bg-soft:  #DAEFC4;
+  --green-bg-mid:   #EAF3DE;
+  --green-border:   #A6CC85;
+  --green-border-2: #9DC868;
+  --green-border-3: #80CBA8;
+  --green-bg-faint: #E1F5EE;
+  --green-emerald:  #2BB17C;
+  --green-deep:     #0F6E56;
+
+  /* Status pill: missing / fail / danger */
+  --danger-text:    #993C1D;
+  --danger-bg:      #FAECE7;
+  --danger-bg-mid:  #FCDED2;
+  --danger-bg-soft: #FCF2EE;
+  --danger-border:  #E8A080;
+  --danger-border-2:#F0CFC2;
+  --danger-solid:   #E54B2B;
+  --danger-bg-tier-rule: #FCE0D6;
+
+  /* Status banner amber */
+  --banner-bg:      #FBF6E2;
+
+  /* Type */
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+
+  /* Spacing */
+  --gap-1: 4px;
+  --gap-2: 6px;
+  --gap-3: 8px;
+  --gap-4: 10px;
+  --gap-5: 12px;
+  --gap-6: 14px;
+  --gap-7: 16px;
+  --gap-8: 18px;
+  --gap-9: 22px;
+  --gap-10: 28px;
+  --gap-11: 40px;
+
+  /* Radii */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+  --r-xl: 10px;
+  --r-pill: 999px;
+}
+
+html, body, #root { height: 100%; }
+html, body { overflow: hidden; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg-warm);
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; padding: 0; }
+a { text-decoration: none; color: inherit; }
+
+[hidden] { display: none !important; }
+
+/* Shared animations */
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes vrowArrive {
+  0%   { background: var(--green-bg-soft); transform: translateY(-4px); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { background: transparent; transform: translateY(0); opacity: 1; }
+}
+@keyframes toastIn  { from { opacity:0; transform: translate(-50%, 10px); } to { opacity:1; transform: translate(-50%, 0); } }
+@keyframes toastOut { from { opacity:1; transform: translate(-50%, 0); }  to { opacity:0; transform: translate(-50%, 10px); } }
