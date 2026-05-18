@@ -171,16 +171,11 @@
   border-radius: 4px;
   border: 1px solid;
   white-space: nowrap;
-}
-.substepPattern {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--text-faint);
-  background: var(--bg-warm);
-  border: 1px solid var(--border-strong);
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
+  /* Pinned to the widest label (`automated`) so all four type pills align
+     uniformly regardless of which type each substep is. */
+  min-width: 78px;
+  text-align: center;
+  box-sizing: border-box;
 }
 .substepChev {
   width: 14px;
@@ -324,6 +319,14 @@
 .pvBtnSecondary:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
 .pvBtnDanger { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
 .pvBtnDanger:hover { background: #F2D9CF; }
+.pvBtn:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.pvBtn:disabled:hover {
+  background: inherit;
+  border-color: inherit;
+}
 .pvResultPass { color: var(--green-text); font-weight: 500; }
 .pvResultFlag { color: var(--danger-text); font-weight: 500; }
 

@@ -1,13 +1,46 @@
+import { useWorkflow } from '../../../state/WorkflowContext';
 import styles from '../intelligence/intelligence.module.css';
 import docStyles from '../documents/documents.module.css';
 
 export default function IntelligenceTab() {
+  const { state, dismissBanner } = useWorkflow();
+  const bannerDismissed = state.dismissedBanners['intelligence-reconciliation'] ?? false;
+  const isLocked = state.workflowPhase === 'profile_pending' || state.workflowPhase === 'tier_pending';
+
+  if (isLocked) {
+    return (
+      <div className={styles.body}>
+        <div className={styles.lockedEmpty}>
+          <div className={styles.lockedEmptyIcon}>
+            <svg viewBox="0 0 28 28" fill="none" width="26" height="26">
+              <rect x="6" y="12" width="16" height="11" rx="2" stroke="currentColor" strokeWidth="1.6" />
+              <path d="M10 12V9a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </div>
+          <div className={styles.lockedEmptyTitle}>Intelligence signals will appear after setup</div>
+          <div className={styles.lockedEmptyBody}>
+            Set up the vendor profile and accept the risk tier classification to begin gathering external intelligence signals.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.body}>
-      <div className={styles.reconBanner}>
+      <div className={`${styles.reconBanner} ${bannerDismissed ? styles.reconBannerDismissed : ''}`}>
         <div className={styles.reconBannerBody}>
           <strong>4 signals reconciled across sources</strong> — no conflicting indicators. 2 low-severity adverse news events in the past 12 months. No data absence flags raised. Last refreshed today at 9:14 AM.
         </div>
+        <button
+          className={styles.reconBannerDismiss}
+          onClick={() => dismissBanner('intelligence-reconciliation')}
+          aria-label="Dismiss banner"
+        >
+          <svg viewBox="0 0 12 12" fill="none">
+            <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        </button>
       </div>
 
       <div className={styles.intelGrid}>

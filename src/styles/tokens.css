@@ -135,3 +135,12 @@ a { text-decoration: none; color: inherit; }
 }
 @keyframes toastIn  { from { opacity:0; transform: translate(-50%, 10px); } to { opacity:1; transform: translate(-50%, 0); } }
 @keyframes toastOut { from { opacity:1; transform: translate(-50%, 0); }  to { opacity:0; transform: translate(-50%, 10px); } }
+
+/* Grayscale theme — toggled by the bottom-left gear button.
+   Applied to body so fixed-positioned children (modals, panels, toasts)
+   remain positioned relative to body rather than viewport-broken. */
+body.grayscale {
+  filter: grayscale(1);
+  transition: filter .3s ease;
+}
+body { transition: filter .3s ease; }

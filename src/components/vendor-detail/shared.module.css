@@ -54,6 +54,52 @@
   color: #fff;
   border: 1px solid rgba(255,255,255,0.25);
 }
+.aiTierPillRunning {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.22);
+}
+.aiTierSpinner {
+  display: inline-flex;
+  width: 11px;
+  height: 11px;
+  color: #fff;
+  animation: spin 1.1s linear infinite;
+}
+.aiTierSpinner svg { width: 100%; height: 100%; }
+.aiTierProgressList {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.aiTierProgressList li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+  font-family: var(--font-mono);
+  letter-spacing: .02em;
+}
+.aiTierProgressDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--indigo);
+  flex-shrink: 0;
+  animation: progressPulse 1.4s ease-in-out infinite;
+}
+.aiTierProgressList li:nth-child(2) .aiTierProgressDot { animation-delay: 0.18s; }
+.aiTierProgressList li:nth-child(3) .aiTierProgressDot { animation-delay: 0.36s; }
+@keyframes progressPulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.1);  }
+}
+.aiTierProgressActive { color: var(--text); }
 .reqHdrRight { display: flex; align-items: center; gap: 12px; }
 .reqChev { width: 14px; height: 14px; color: #fff; transition: transform .15s; }
 .collapsed .aiTierBody { display: none; }

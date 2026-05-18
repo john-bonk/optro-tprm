@@ -1,13 +1,20 @@
-.body { padding: 24px 30px 40px; }
-
-/* Widgets row */
-.widgets {
+.body {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 18px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  padding: 24px 30px 40px;
+  align-items: start;
 }
+.bodyFull {
+  padding: 24px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.mainColumn { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.sidebar { display: flex; flex-direction: column; gap: 14px; }
+
+/* Widget cards (shared shell) */
 .widgetCard {
   background: #fff;
   border: 1px solid var(--border-strong);
@@ -23,10 +30,22 @@
   font-size: 10px;
   font-family: var(--font-mono);
   font-weight: 600;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
+.widgetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.widgetAction {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sky-text);
+  cursor: pointer;
+}
+.widgetAction:hover { text-decoration: underline; }
 
 /* Activity */
 .activityList { display: flex; flex-direction: column; }
@@ -34,7 +53,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--border);
 }
 .activityItem:last-child { border-bottom: none; padding-bottom: 0; }
@@ -42,61 +61,98 @@
 .activityDot {
   width: 9px; height: 9px; border-radius: 50%;
   background: var(--sky);
-  margin-top: 5px; flex-shrink: 0;
+  margin-top: 6px; flex-shrink: 0;
 }
 .activityDot.ai { background: var(--indigo-dot); }
 .activityContent { flex: 1; min-width: 0; }
 .activityTitle {
-  font-size: 13px; font-weight: 500; color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
   margin-bottom: 4px;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  letter-spacing: -0.01em;
+}
+.activityPillRow { margin-bottom: 6px; }
+.activityPill {
+  display: inline-block;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--indigo-bg-2);
+  color: var(--indigo);
 }
 .activityMeta {
-  font-size: 11px; font-family: var(--font-mono); color: var(--text-faint);
-}
-.activityPill {
-  font-size: 10px; font-family: var(--font-mono); font-weight: 500;
-  padding: 2px 8px; border-radius: 4px;
-  background: var(--indigo-bg-2); color: var(--indigo); border: 1px solid var(--indigo-border-2);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-faint);
 }
 
 /* Health grid */
-.healthGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.healthGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 .healthCell {
   background: var(--bg-warm-soft);
   border: 1px solid var(--border);
-  border-radius: 7px;
-  padding: 11px 12px;
-  display: flex; flex-direction: column; gap: 5px;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.healthCellLabel { font-size: 11px; color: var(--text-faint); font-weight: 500; }
+.healthCellLabel {
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
 .healthCellValue {
-  font-size: 18px; font-weight: 700; color: var(--text);
-  letter-spacing: -0.02em; line-height: 1.1; min-height: 22px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  min-height: 26px;
 }
 .healthCellValue.muted { color: var(--text-disabled); }
-.healthCellPill {
-  font-size: 9px; font-family: var(--font-mono); font-weight: 500;
-  padding: 2px 7px; border-radius: 4px; border: 1px solid;
-  align-self: flex-start; letter-spacing: .04em;
+.healthCellSub {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.3;
 }
-.pillPending      { background: #F1EFE8; border-color: #DDDBD2; color: var(--text-faint); }
-.pillCritical     { background: var(--t1-bg-soft); border-color: var(--t1-border); color: var(--t1-text); }
-.pillStandard     { background: var(--t2-bg-cream); border-color: var(--t2-border); color: var(--t2-text); }
-.pillLow          { background: var(--green-bg-soft); border-color: var(--green-border); color: var(--green-text); }
-.pillIntermediate { background: var(--sky-bg); border-color: var(--sky-soft); color: var(--sky-text); }
 
-/* Key/value rows */
-.kvList { display: flex; flex-direction: column; gap: 9px; }
+/* Tier value tint by tier */
+.tierValueT1 { color: var(--t1-text); }
+.tierValueT2 { color: var(--t2-text); }
+.tierValueT3 { color: var(--green-text); }
+
+/* Key/value rows (used in sidebar cards) */
+.kvList { display: flex; flex-direction: column; gap: 11px; }
 .kvRow {
-  display: grid; grid-template-columns: 1fr auto;
-  gap: 12px; font-size: 13px; align-items: baseline;
+  display: grid;
+  grid-template-columns: minmax(110px, auto) 1fr;
+  gap: 14px;
+  font-size: 13.5px;
+  align-items: baseline;
 }
 .kvKey { color: var(--text-muted); }
-.kvVal { color: var(--text); font-weight: 500; text-align: right; }
+.kvVal { color: var(--text); font-weight: 500; text-align: right; line-height: 1.45; }
 .kvVal.muted { color: var(--text-disabled); font-weight: 400; }
+.kvValRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.muted { color: var(--text-disabled); }
 
-/* Details block */
+/* Details block (now lives on Profile tab) */
 .detailsBlock {
   background: #fff;
   border: 1px solid var(--border-strong);
@@ -154,3 +210,8 @@
   transition: color .12s;
 }
 .detailsLink:hover { color: var(--navy-hover); text-decoration: underline; }
+
+/* Widget cards in main column need their own bottom spacing (the AI-tier
+   shared shell already has margin-bottom: 18px). */
+.mainColumn > .widgetCard { margin-bottom: 18px; }
+.mainColumn > .widgetCard:last-child { margin-bottom: 0; }

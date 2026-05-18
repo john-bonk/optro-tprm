@@ -8,6 +8,11 @@ export default function AITierBlock() {
   const { state, acceptTier } = useWorkflow();
   const [collapsed, setCollapsed] = useState(false);
 
+  // Only the tier acceptance step shows this block. Hidden during profile setup
+  // (earlier), during the tier-generation interstitial (the GenerateTierPrompt
+  // takes the surface in those sub-states), and once tier is accepted (later).
+  if (state.workflowPhase !== 'tier_pending') return null;
+  if (!state.tierGenerated) return null;
   if (state.tierAccepted) return null;
 
   const data = tierData[state.selectedTier];

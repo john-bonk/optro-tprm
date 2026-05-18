@@ -8,26 +8,32 @@ export default function LifecycleTab() {
   const steps = phaseData[state.lifecyclePhase];
   const activeStep = steps[state.activeStep];
 
+  // Phase selector temporarily hidden from the lifecycle view — kept in code
+  // so we can re-enable when monitoring / recurring views come back online.
+  const SHOW_PHASE_SELECTOR = false;
+
   return (
     <div className={lifecycle.body}>
-      <div className={lifecycle.wfSelector}>
-        <span className={lifecycle.wfLabel}>Phase</span>
-        <div className={lifecycle.wfOptions}>
-          <span
-            className={`${lifecycle.wfOption} ${lifecycle.wfOptionClickable} ${state.lifecyclePhase === 'vendor_intake' ? lifecycle.wfOptionActive : ''}`}
-            onClick={() => setPhase('vendor_intake')}
-          >
-            New Vendor Intake
-          </span>
-          <span
-            className={`${lifecycle.wfOption} ${lifecycle.wfOptionClickable} ${state.lifecyclePhase === 'continuous_monitoring' ? lifecycle.wfOptionActive : ''}`}
-            onClick={() => setPhase('continuous_monitoring')}
-          >
-            Continuous Monitoring
-          </span>
-          <span className={lifecycle.wfOption}>Recurring Assessment</span>
+      {SHOW_PHASE_SELECTOR && (
+        <div className={lifecycle.wfSelector}>
+          <span className={lifecycle.wfLabel}>Phase</span>
+          <div className={lifecycle.wfOptions}>
+            <span
+              className={`${lifecycle.wfOption} ${lifecycle.wfOptionClickable} ${state.lifecyclePhase === 'vendor_intake' ? lifecycle.wfOptionActive : ''}`}
+              onClick={() => setPhase('vendor_intake')}
+            >
+              New Vendor Intake
+            </span>
+            <span
+              className={`${lifecycle.wfOption} ${lifecycle.wfOptionClickable} ${state.lifecyclePhase === 'continuous_monitoring' ? lifecycle.wfOptionActive : ''}`}
+              onClick={() => setPhase('continuous_monitoring')}
+            >
+              Continuous Monitoring
+            </span>
+            <span className={lifecycle.wfOption}>Recurring Assessment</span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className={lifecycle.stepper}>
         {steps.map((step, i) => {

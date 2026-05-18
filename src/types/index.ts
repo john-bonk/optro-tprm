@@ -28,6 +28,8 @@ export interface ManagedVendor {
 
 export type Tier = 1 | 2 | 3;
 
+export type DataClassification = 'Public' | 'Internal' | 'Confidential' | 'Restricted / PII';
+
 export interface TierInfo {
   label: string;
   name: string;
@@ -37,19 +39,29 @@ export interface TierInfo {
 }
 
 export type WorkflowPhase =
+  | 'profile_pending'
   | 'tier_pending'
   | 'docs_pending'
   | 'assessments_pending'
-  | 'assessments_started';
+  | 'assessments_started'
+  | 'gaps_in_flight'
+  | 'acceptance_pending'
+  | 'review_pending'
+  | 'report_pending'
+  | 'monitoring_active';
+
+export type ProfileConfigSource = 'auto' | 'manual' | null;
 
 export type LifecyclePhase = 'vendor_intake' | 'continuous_monitoring';
 
 export type VendorTab =
   | 'overview'
+  | 'profile'
   | 'lifecycle'
   | 'documents'
   | 'intelligence'
-  | 'assessments';
+  | 'assessments'
+  | 'reports';
 
 export type SubstepStatus = 'not_started' | 'in_progress' | 'complete';
 

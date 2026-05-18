@@ -6,9 +6,9 @@ export default function RequiredDocsBlock() {
   const { state, setTab } = useWorkflow();
   const [collapsed, setCollapsed] = useState(false);
 
-  // Visible after tier accepted, hidden once docs received & assessments unlocked
-  if (!state.tierAccepted) return null;
-  if (state.workflowPhase === 'assessments_pending' || state.workflowPhase === 'assessments_started') return null;
+  // Only visible while the docs-collection step is the active workflow step.
+  // Once the workflow moves past docs_pending, this block is stale.
+  if (state.workflowPhase !== 'docs_pending') return null;
 
   const pillText = state.docsRequested ? 'All received' : '2 missing';
 
@@ -30,7 +30,7 @@ export default function RequiredDocsBlock() {
         </div>
         <div className={shared.aiTierActions}>
           <button className={`${shared.aiTierBtn} ${shared.btnPrimary}`} onClick={() => setTab('documents')}>
-            Go to Documents
+            Request missing docs
             <svg viewBox="0 0 12 12" fill="none" width="11" height="11">
               <path d="M3 6h6m-2.5-2.5L9 6 6.5 8.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

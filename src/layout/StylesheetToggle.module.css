@@ -1,0 +1,35 @@
+.toggle {
+  position: fixed;
+  bottom: 14px;
+  left: 14px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: background .15s ease, color .15s ease, transform .25s ease, border-color .15s ease;
+}
+.toggle:hover {
+  color: var(--text);
+  background: var(--bg-warm-soft);
+  transform: rotate(30deg);
+  border-color: var(--border-input);
+}
+.toggle svg { width: 16px; height: 16px; }
+
+.toggleActive {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+.toggleActive:hover {
+  background: var(--text-soft);
+  color: #fff;
+  border-color: var(--text-soft);
+}

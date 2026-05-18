@@ -1,14 +1,50 @@
 .body { padding: 24px 30px 40px; }
 
 .reconBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: var(--indigo-bg-2);
   border: 1px solid var(--indigo-border-2);
   border-radius: 7px;
   padding: 14px 16px;
   margin-bottom: 18px;
+  overflow: hidden;
+  max-height: 200px;
+  transition:
+    max-height .28s ease,
+    opacity .22s ease,
+    margin-bottom .28s ease,
+    padding-top .28s ease,
+    padding-bottom .28s ease,
+    border-width .28s ease;
 }
-.reconBannerBody { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
+.reconBannerDismissed {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-width: 0;
+  pointer-events: none;
+}
+.reconBannerBody { flex: 1; font-size: 13px; color: var(--text-soft); line-height: 1.5; min-width: 0; }
 .reconBannerBody strong { color: var(--indigo); font-weight: 600; }
+.reconBannerDismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--indigo);
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity .12s, background .12s;
+}
+.reconBannerDismiss:hover { opacity: 1; background: rgba(79, 68, 184, 0.12); }
+.reconBannerDismiss svg { width: 12px; height: 12px; }
 
 .intelGrid {
   display: grid;
@@ -106,3 +142,39 @@
 .newsLow    { background: #F1EFE8; color: var(--text-muted); border-color: #DDDBD2; }
 .newsMedium { background: var(--t2-bg-cream); color: var(--t2-text); border-color: var(--t2-border); }
 .newsHigh   { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+
+/* Locked empty state — shown before profile + tier are completed. */
+.lockedEmpty {
+  background: #fff;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 56px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.lockedEmptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.lockedEmptyTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.lockedEmptyBody {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 520px;
+}

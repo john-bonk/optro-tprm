@@ -1,0 +1,332 @@
+/* Tier Classification block */
+.tierClassBlock {
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.tierClassHdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.tierClassTitle {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.reclassifyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text);
+}
+.reclassifyBtn:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+
+.tierClassBody {
+  padding: 16px 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.tierPill {
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.tierPillConfirmed { background: var(--green-bg-soft); color: var(--green-text); }
+.tierPillPending   { background: var(--t2-bg-cream); color: var(--t2-text); }
+.tierClassMeta {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Details block — full width on Profile */
+.detailsBlock {
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .14s, box-shadow .14s, background .14s;
+}
+/* Manual entry primed — block becomes an inviting click target that
+   simulates a full record entry when activated. */
+.detailsBlockClickable {
+  cursor: pointer;
+  border-style: dashed;
+  border-color: var(--sky-soft);
+  background: linear-gradient(180deg, var(--sky-bg-faint) 0%, #fff 60%);
+}
+.detailsBlockClickable:hover {
+  border-color: var(--sky-text);
+  background: linear-gradient(180deg, var(--sky-bg) 0%, #fff 60%);
+  box-shadow: 0 6px 20px rgba(24, 95, 165, 0.08);
+}
+.detailsManualHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: var(--sky-bg);
+  color: var(--sky-text);
+  border: 1px solid var(--sky-soft);
+}
+.detailsHdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.detailsTitle {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.customizeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text);
+}
+.customizeBtn:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+
+.detailsBody {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 80px;
+  padding: 26px 32px 30px;
+}
+.detailsColumn { display: flex; flex-direction: column; gap: 22px; }
+.detailsRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 22px;
+  align-items: baseline;
+}
+.detailsLabel {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-top: 4px;
+  text-align: right;
+}
+.required { color: var(--danger-solid); margin-left: 2px; }
+.detailsValue {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.detailsValueMulti { display: flex; flex-direction: column; gap: 2px; }
+.detailsValueEmpty { color: var(--text-disabled); }
+.detailsValuePlaceholder {
+  color: var(--text-disabled);
+  font-style: normal;
+}
+.detailsLink {
+  color: var(--sky-text);
+  cursor: pointer;
+  display: block;
+  padding: 1px 0;
+}
+.detailsLink:hover { color: var(--navy-hover); text-decoration: underline; }
+
+/* Profile empty state (profile_pending phase) */
+.profileEmpty {
+  background: #fff;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 56px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.profileEmptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.profileEmptyTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.profileEmptyBody {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 520px;
+  margin-bottom: 6px;
+}
+.profileEmptyActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.profileEmptyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+}
+.profileEmptyBtn:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+.profileEmptyBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border-input);
+}
+.profileEmptyBtnSecondary:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+
+/* Profile configuration banner (post-config readout, dismissible) */
+.profileBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--green-bg-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 200px;
+  transition:
+    max-height .28s ease,
+    opacity .22s ease,
+    margin-bottom .28s ease,
+    padding-top .28s ease,
+    padding-bottom .28s ease,
+    border-width .28s ease;
+}
+.profileBannerDismissed {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-width: 0;
+  pointer-events: none;
+}
+.profileBannerIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green-emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.profileBannerText { flex: 1; min-width: 0; font-size: 13.5px; color: var(--green-text); line-height: 1.5; }
+.profileBannerText strong { color: var(--green-text); font-weight: 700; }
+.profileBannerDismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--green-text);
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity .12s, background .12s;
+}
+.profileBannerDismiss:hover { opacity: 1; background: rgba(39, 80, 10, 0.12); }
+.profileBannerDismiss svg { width: 12px; height: 12px; }
+
+/* Data Classification dropdown */
+.dcSelectWrap { position: relative; min-width: 200px; max-width: 320px; }
+.dcButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-input);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+}
+.dcButton:hover { border-color: var(--text-faint); }
+.dcButton svg { color: var(--text-faint); }
+.dcMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dcOption {
+  display: block;
+  width: 100%;
+  padding: 9px 14px;
+  text-align: left;
+  background: transparent;
+  font-size: 14px;
+  border-radius: 5px;
+  color: var(--text);
+  font-weight: 500;
+}
+.dcOption:hover { background: var(--bg-warm); }
+.dcOption.selected { background: var(--sky-bg); color: var(--sky-text); }

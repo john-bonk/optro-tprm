@@ -2,6 +2,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .objHero {
@@ -12,8 +13,8 @@
 }
 .objNameRow {
   display: flex;
-  align-items: baseline;
-  gap: 14px;
+  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
 }
 .objName {
@@ -23,6 +24,82 @@
   color: var(--text);
   line-height: 1.1;
   margin: 0;
+}
+
+/* Dynamic workflow status + action — right-justified.
+   Status pill is always visible; the action button collapses to width 0
+   when the user is already on the tab where the action UI lives. */
+.heroAction {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.heroStatus {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  transition: background .3s ease, color .3s ease;
+}
+/* Status pills sit side-by-side; the primary-step pill (left) gets a
+   small gap from its sibling. The action button keeps its bespoke
+   margin so its collapse animation is unaffected. */
+.heroStatus + .heroStatus { margin-left: 8px; }
+.heroStatusAmber  { background: var(--t2-bg-cream); color: var(--t2-text); }
+.heroStatusSky    { background: var(--sky-bg);      color: var(--sky-text); }
+.heroStatusIndigo { background: var(--indigo-bg);   color: var(--indigo); }
+/* Primary-step pill — anchors the hero to the lifecycle map. Neutral
+   surface so it reads as the structural label, with the substep-status
+   pill carrying the amber/sky/indigo signal next to it. */
+.heroStepPill {
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+}
+
+.heroActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  margin-left: 12px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 320px;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    background .12s,
+    border-color .12s,
+    opacity .35s ease-out,
+    transform .35s ease-out,
+    max-width .35s ease-out,
+    margin-left .35s ease-out,
+    padding-left .35s ease-out,
+    padding-right .35s ease-out,
+    border-width .35s ease-out;
+}
+.heroActionBtn:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+
+.heroActionBtnHidden {
+  opacity: 0;
+  transform: translateX(8px);
+  max-width: 0;
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-width: 0;
+  pointer-events: none;
 }
 
 .tabRow {
@@ -63,6 +140,7 @@
 
 .tabContent {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   background: #fff;
 }

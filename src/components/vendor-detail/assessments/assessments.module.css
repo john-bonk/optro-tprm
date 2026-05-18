@@ -250,3 +250,1122 @@
 }
 .detailFooterLink { color: var(--sky-text); cursor: pointer; }
 .detailFooterLink:hover { text-decoration: underline; }
+
+/* ─────────────────────────────────────────────
+   NOT-STARTED VIEW — tabular layout
+   ───────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.filterPills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text-soft);
+}
+.filterPill:hover { border-color: var(--border-input); color: var(--text); }
+.filterPillActive {
+  background: var(--sky-bg);
+  border-color: var(--sky-bg);
+  color: var(--sky-text);
+}
+.filterPillActive:hover { border-color: var(--sky-bg); color: var(--sky-text); }
+.filterCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+.filterCountActive { background: var(--sky-text); color: #fff; }
+
+/* Primary toolbar CTA — shown only when workflowPhase === 'assessments_pending'.
+   Actually fires startAssessments(); the hero button is a router-only. */
+.startAssessmentsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+  white-space: nowrap;
+  transition: background .12s, border-color .12s;
+}
+.startAssessmentsBtn:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+
+/* Gaps banner — appears once AI drafting settles, before the batch send.
+   Cream/amber background with a primary navy CTA. */
+.gapsBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--banner-bg);
+  border: 1px solid var(--t2-border);
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.gapsBannerIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--t2-bg-cream);
+  border: 1px solid var(--t2-border);
+  color: var(--t2-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gapsBannerText {
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+.gapsBannerText strong { color: var(--text); font-weight: 600; }
+.gapsBannerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 7px;
+  background: var(--t1-bg-solid);
+  color: #fff;
+  border: 1px solid var(--t1-bg-solid);
+  white-space: nowrap;
+  transition: background .12s, border-color .12s;
+}
+.gapsBannerBtn:hover { background: #C7401F; border-color: #C7401F; }
+
+/* Resolved banner — green positive confirmation after gaps are closed */
+.resolvedBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--green-bg-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 10px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  max-height: 200px;
+  transition:
+    max-height .28s ease,
+    opacity .22s ease,
+    margin-bottom .28s ease,
+    padding-top .28s ease,
+    padding-bottom .28s ease,
+    border-width .28s ease;
+}
+.resolvedBannerDismissed {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-width: 0;
+  pointer-events: none;
+}
+.resolvedBannerIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green-emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.resolvedBannerText {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--green-text);
+  line-height: 1.5;
+}
+.resolvedBannerText strong { color: var(--green-text); font-weight: 700; }
+.resolvedBannerDismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--green-text);
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity .12s, background .12s;
+}
+.resolvedBannerDismiss:hover { opacity: 1; background: rgba(39, 80, 10, 0.12); }
+.resolvedBannerDismiss svg { width: 12px; height: 12px; }
+
+/* In-flight banner — indigo, animated. Shows during the gaps_in_flight phase. */
+.inFlightBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--indigo-bg-2);
+  border: 1px solid var(--indigo-border-2);
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.inFlightSpinner {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--indigo);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: spin 1.1s linear infinite;
+}
+.inFlightTextCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.inFlightText {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+.inFlightText strong { color: var(--indigo); font-weight: 600; }
+.inFlightCounter {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--indigo);
+}
+.inFlightProgressBar {
+  width: 100%;
+  height: 4px;
+  background: rgba(79, 68, 184, 0.18);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.inFlightProgressFill {
+  height: 100%;
+  background: var(--indigo);
+  border-radius: var(--r-pill);
+  transition: width 80ms linear;
+}
+
+/* Per-row progress bar in the Progress cell */
+.rowProgressBar {
+  margin-top: 6px;
+  height: 3px;
+  background: var(--border);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  max-width: 180px;
+}
+.rowProgressFill {
+  height: 100%;
+  background: var(--indigo);
+  border-radius: var(--r-pill);
+  transition: width .15s linear;
+}
+
+/* Subtle Add questionnaire footer — folded out of the toolbar to keep the
+   primary CTA clean. Matches the dashed-border "+ Add" pattern from Settings. */
+.addQuestionnaireSubtle {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 11px;
+  margin-top: 12px;
+  color: var(--indigo);
+  border: 1.5px dashed var(--indigo-border);
+  border-radius: 8px;
+  background: transparent;
+  transition: background .12s, border-color .12s;
+}
+.addQuestionnaireSubtle:hover {
+  background: #F8F6FE;
+  border-color: var(--indigo-border-2);
+}
+.addQuestionnaireSubtle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-disabled);
+}
+.addQuestionnaireSubtle:disabled:hover {
+  background: transparent;
+  border-color: var(--border);
+}
+
+/* Locked banner — shown when earlier workflow steps haven't been completed. */
+.lockedBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg-warm-soft);
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.lockedBannerIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.lockedBannerText {
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Hard-locked empty state — shown before tier acceptance. */
+.hardLockedEmpty {
+  background: #fff;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 56px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.hardLockedIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.hardLockedTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.hardLockedBody {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 520px;
+}
+
+/* Disabled assessment row (workflow not yet at assessment step) */
+.rowDisabled {
+  opacity: 0.55;
+}
+.rowDisabled:hover {
+  background: transparent !important;
+}
+.actionLinkDisabled {
+  color: var(--text-disabled) !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.table {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.row {
+  display: grid;
+  /* Columns: check · questionnaire · status · progress · gaps · sent · due
+     · preparer · reviewers · action. Status got bumped from 0.8fr → 1.4fr
+     so the longest pill label ("Ready for Review") doesn't bleed into the
+     Progress column — slight trims to Sent/Due/Preparer/Reviewers/Action
+     reclaim the room. */
+  grid-template-columns: 36px minmax(0, 2fr) 1.4fr 0.9fr 0.5fr 0.9fr 0.9fr 1.05fr 1.3fr 0.75fr;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  transition: background .12s ease;
+}
+.row:last-child { border-bottom: none; }
+.row:not(.head):hover { background: var(--bg-warm-soft); }
+.head {
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-strong);
+}
+.rowChecked { background: var(--sky-bg); }
+.rowChecked:hover { background: var(--sky-bg); }
+
+.cell { min-width: 0; color: var(--text); font-weight: 600; }
+.head .cell { font-weight: 500; }
+.cellCheck { display: flex; align-items: center; justify-content: center; }
+.cellCheck input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--sky-text);
+  cursor: pointer;
+}
+.cellAction { text-align: right; min-width: 0; }
+
+.qName {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.qSub {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.statusPill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.statusPillQueued          { background: var(--surface-mute);  color: var(--text-muted); }
+.statusPillDrafting        { background: var(--indigo-bg);     color: var(--indigo); }
+.statusPillGaps            { background: var(--t2-bg-soft);    color: var(--t2-text); }
+.statusPillFillingGaps     { background: var(--t2-bg-cream);   color: var(--t2-text); }
+.statusPillReadyForReview  { background: var(--sky-bg);        color: var(--sky-text); }
+.statusPillReview          { background: var(--indigo-bg);     color: var(--indigo); }
+.statusPillCertified       { background: var(--green-bg-soft); color: var(--green-text); }
+
+.progressCell {
+  font-size: 13.5px;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+.progressCellActive {
+  font-size: 13.5px;
+  color: var(--text);
+  font-weight: 600;
+}
+.gapsCell {
+  font-size: 14px;
+  color: var(--text-disabled);
+  font-weight: 500;
+}
+.gapsCellActive {
+  font-size: 14px;
+  color: var(--danger-text);
+  font-weight: 700;
+}
+
+.preparer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+.reviewers {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.reviewerStack { display: inline-flex; }
+.reviewerSummary { font-weight: 500; }
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+.avatarStacked {
+  border: 1.5px solid #fff;
+  margin-left: -6px;
+}
+.avatarStacked:first-child { margin-left: 0; }
+.avatarOverflow {
+  background: var(--text-disabled);
+  color: #fff;
+}
+
+.actionLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sky-text);
+  cursor: pointer;
+}
+.actionLink:hover { text-decoration: underline; }
+
+/* Selection action bar */
+.selectionBar {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px 12px 12px;
+  background: var(--bg-warm-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+.selectionLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.selectionBack {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--sky-bg);
+  color: var(--sky-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--sky-soft);
+}
+.selectionBack:hover { background: var(--sky-bg-mid); }
+.selectionCount { font-size: 13.5px; color: var(--text); font-weight: 600; }
+.selectionLink {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sky-text);
+  background: transparent;
+  cursor: pointer;
+}
+.selectionLink:hover { text-decoration: underline; }
+.selectionRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.selectionAction {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text);
+}
+.selectionAction:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+.selectionPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.selectionPrimary:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+.selectionDanger {
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+.selectionDanger:hover { background: var(--danger-bg); border-color: var(--danger-solid); color: var(--danger-text); }
+
+.emptyState {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+/* ─────────────────────────────────────────────
+   OPENED ASSESSMENT VIEW
+   ───────────────────────────────────────────── */
+
+.openedLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  padding: 24px 30px 40px;
+  align-items: start;
+}
+.openedMain { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+/* Queued view body (full width, no comments panel) */
+.bodyQueued {
+  padding: 24px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.openedNotFound { padding: 60px 12px; text-align: center; color: var(--text-faint); }
+
+/* Back chevron — sits inline to the left of the assessment title */
+.backChev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.backChev:hover { background: var(--bg-warm-soft); color: var(--text); border-color: var(--text-faint); }
+
+/* Queued empty state card */
+.queuedEmpty {
+  background: #fff;
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.queuedEmptyIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.queuedEmptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.queuedEmptyBody {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 520px;
+}
+
+/* Top header card */
+.openedCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px;
+}
+.openedHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.openedTitleRow { display: flex; align-items: center; gap: 12px; }
+.openedTitle {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0;
+}
+.openedStatusPill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  text-transform: uppercase;
+}
+.openedStatusQueued    { background: var(--surface-mute);   color: var(--text-muted); }
+.openedStatusGaps      { background: var(--t2-bg-cream);    color: var(--t2-text); }
+.openedStatusDrafting  { background: var(--indigo-bg);      color: var(--indigo); }
+.openedStatusReview    { background: var(--sky-bg);         color: var(--sky-text); }
+.openedStatusCertified { background: var(--green-bg-soft);  color: var(--green-text); }
+
+.openedActions { display: flex; gap: 10px; flex-shrink: 0; }
+.btnSecondary {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text);
+}
+.btnSecondary:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+.btnPrimary {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+}
+.btnPrimary:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+
+.openedMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+.openedMeta strong { color: var(--text); font-weight: 600; }
+.metaPrimary { color: var(--text); }
+.metaSep { color: var(--text-disabled); }
+
+.openedProgress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.openedProgressLeftLabel { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+.openedProgressBar {
+  flex: 1;
+  min-width: 200px;
+  height: 8px;
+  background: var(--border);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.openedProgressFill {
+  height: 100%;
+  background: var(--indigo);
+  border-radius: var(--r-pill);
+  transition: width .4s ease;
+}
+.openedProgressRightLabel {
+  font-size: 12.5px;
+  color: var(--danger-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Filter row */
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 4px 0 4px;
+}
+.filterRowLabel {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+/* Question list */
+.questionList { display: flex; flex-direction: column; gap: 12px; }
+.questionEmpty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.qCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.qCard::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: transparent;
+  transition: background .12s;
+}
+.qCardGap::before { background: var(--danger-solid); }
+.qCardApproved::before { background: var(--green-emerald); }
+
+.qHeader {
+  display: grid;
+  grid-template-columns: 24px 36px minmax(0, 1fr) auto;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 14px 18px;
+}
+.qChev {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  color: var(--text-faint);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-top: 1px;
+}
+.qChev:hover { background: var(--bg-warm); color: var(--text); }
+.qNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: .04em;
+  padding-top: 4px;
+}
+.qHeaderText { min-width: 0; }
+.qText {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.qSub {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.qHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.qStatusPill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 3px 9px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.qStatusDrafted  { background: var(--green-bg-soft);  color: var(--green-text); }
+.qStatusGap      { background: var(--danger-bg-mid);  color: var(--danger-text); }
+.qStatusApproved { background: var(--sky-bg);         color: var(--sky-text); }
+
+.qCommentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--sky-bg);
+  color: var(--sky-text);
+}
+
+.qBody {
+  padding: 4px 22px 18px 78px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.qAnswerBox {
+  padding: 12px 14px;
+  background: var(--bg-warm-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.qSourceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.qSourceLabel { color: var(--text-muted); }
+.qSourcePill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  background: var(--indigo-bg);
+  color: var(--indigo);
+}
+.qSourcePillEmpty {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  background: var(--surface-mute);
+  color: var(--text-disabled);
+}
+
+.qActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.qBtn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 7px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.qBtnPrimary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.qBtnPrimary:hover { background: var(--navy-hover); border-color: var(--navy-hover); }
+.qBtnSelected {
+  /* selected primary stays the same styling but reinforces selection */
+  box-shadow: 0 0 0 2px rgba(26, 58, 92, 0.15);
+}
+.qBtnDanger {
+  background: #fff;
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+.qBtnDanger:hover { background: var(--danger-bg); }
+.qBtnSecondary {
+  background: #fff;
+  border-color: var(--border-input);
+  color: var(--text);
+}
+.qBtnSecondary:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+.qConfidence {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.qConfidence strong { color: var(--text); font-weight: 600; }
+
+/* ─────────────────────────────────────────────
+   COMMENTS PANEL (right side)
+   ───────────────────────────────────────────── */
+.commentsPanel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 14px;
+}
+.commentsTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.questionSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  text-align: left;
+}
+.questionSelector:hover { border-color: var(--text-faint); }
+.questionSelectorText {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.commentsTabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
+.commentsTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 4px 10px;
+  margin-bottom: -1px;
+  background: transparent;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+}
+.commentsTab:hover { color: var(--text); }
+.commentsTabActive {
+  color: var(--sky-text);
+  border-bottom-color: var(--sky-text);
+}
+.commentsTabCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-mute);
+  color: var(--text-muted);
+}
+.commentsTabActive .commentsTabCount {
+  background: var(--sky-text);
+  color: #fff;
+}
+
+.commentList { display: flex; flex-direction: column; gap: 14px; min-height: 80px; }
+.comment {
+  display: flex;
+  gap: 10px;
+}
+.commentAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.commentBody { flex: 1; min-width: 0; }
+.commentMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.commentAuthor { font-size: 13px; color: var(--text); }
+.commentRole {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--indigo-bg);
+  color: var(--indigo);
+}
+.commentTime { font-size: 12px; color: var(--text-faint); }
+.commentText {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.commentForm {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.commentInput {
+  width: 100%;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 7px;
+  background: #fff;
+  resize: vertical;
+  min-height: 70px;
+}
+.commentInput:focus { outline: none; border-color: var(--sky-soft); }
+.commentInput::placeholder { color: var(--text-faint); }
+.commentFormFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.commentVisibility { font-size: 12px; color: var(--text-faint); }
+.commentReplyBtn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
+}
+.commentReplyBtn:hover { background: var(--navy-hover); border-color: var(--navy-hover); }

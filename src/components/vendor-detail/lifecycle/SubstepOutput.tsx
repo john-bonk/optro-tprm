@@ -1,14 +1,17 @@
-import type { SubstepOutput } from '../../../types';
+import type { Substep, SubstepStatus } from '../../../types';
 import { useWorkflow } from '../../../state/WorkflowContext';
 import { tierData } from '../../../data/tier-data';
+import { ASSESSMENTS } from '../../../data/assessments';
 import styles from './lifecycle.module.css';
 import TierOverrideMenu from '../overview/TierOverrideMenu';
 
 interface Props {
-  out: SubstepOutput;
+  substep: Substep;
+  status: SubstepStatus;
 }
 
-export default function SubstepOutputRenderer({ out }: Props) {
+export default function SubstepOutputRenderer({ substep, status }: Props) {
+  const out = substep.out;
   if (out.kind === 'text') {
     return <div className={styles.pvText}>{out.content}</div>;
   }
@@ -53,21 +56,7 @@ export default function SubstepOutputRenderer({ out }: Props) {
     );
   }
   if (out.kind === 'hitl') {
-    return (
-      <div className={styles.pvHitl}>
-        <div className={styles.pvHitlFlag}>⚑ Awaiting input</div>
-        <div className={styles.pvHitlTitle}>{out.title}</div>
-        <div className={styles.pvHitlBody}>{out.body}</div>
-        <div className={styles.pvHitlActions}>
-          {out.actions.map((a, i) => {
-            const cls =
-              i === 0 ? styles.pvBtnPrimary :
-              (i === out.actions.length - 1 && out.actions.length > 2) ? styles.pvBtnDanger : styles.pvBtnSecondary;
-            return <button key={a} className={`${styles.pvBtn} ${cls}`}>{a}</button>;
-          })}
-        </div>
-      </div>
-    );
+    return <HitlBlock substep={substep} status={status} title={out.title} body={out.body} actions={out.actions} />;
   }
   if (out.kind === 'link') {
     return (
@@ -143,6 +132,101 @@ const tierSignals = [
   { source: 'AI',  text: 'No PII handling indicated — if PII present, would escalate to Tier 1' },
   { source: 'AI',  text: 'New vendor, no prior assessment history — conservative classification' },
 ];
+
+// ─────────────────────────────────────────────
+// HITL block — interactive parallel of action buttons / banner CTAs across
+// the rest of the app. Each substep's CTAs dispatch the same workflow action
+// you'd get from clicking the equivalent block elsewhere. Buttons are
+// enabled only while the substep is in_progress so the lifecycle never lets
+// you fire an action out of its workflow window.
+// ─────────────────────────────────────────────
+
+interface HitlBlockProps {
+  substep: Substep;
+  status: SubstepStatus;
+  title: string;
+  body: string;
+  actions: string[];
+}
+
+function HitlBlock({ substep, status, title, body, actions }: HitlBlockProps) {
+  const w = useWorkflow();
+  const live = status === 'in_progress';
+
+  // Map each substep name → handler that fires for action index `i`. Demo
+  // actions (Reject, Defer, Modify verdict, etc.) intentionally no-op since
+  // they have no parallel CTA anywhere else in the app.
+  const handlerFor = (i: number): (() => void) | null => {
+    switch (substep.name) {
+      case 'Populate vendor record':
+        if (i === 0) return () => w.startAutoPopulate();
+        if (i === 1) return () => w.configureProfile('manual');
+        return null;
+      case 'Generate tier classification':
+        if (i === 0) return () => w.startTierGeneration();
+        return null;
+      case 'Collect missing vendor evidence':
+        if (i === 0) return () => { w.setTab('documents'); w.requestMissingDocs(); };
+        return null;
+      case 'Resolve question gaps with vendor':
+        if (i === 0) return () => { w.setTab('assessments'); w.openSendGapsPanel(); };
+        return null;
+      case 'Review and accept AI-drafted answers':
+        if (i === 0) return () => {
+          w.bulkAcceptAssessments(ASSESSMENTS.map(a => a.id));
+          w.setTab('assessments');
+          w.openSendForReviewPanel();
+        };
+        if (i === 1) return () => w.setTab('assessments');
+        return null;
+      case 'Issue verdict and generate vendor risk report':
+        if (i === 0) return () => {
+          if (w.state.workflowPhase === 'report_pending') w.generateReport();
+          w.openReportViewer();
+          w.setTab('reports');
+        };
+        return null;
+      default:
+        return null;
+    }
+  };
+
+  // Status-banner copy shifts after action fires so the substep reads as the
+  // historical context rather than an active prompt.
+  const statusLabel = status === 'complete'
+    ? '✓ Completed'
+    : status === 'in_progress'
+      ? '⚑ Awaiting input'
+      : '○ Pending earlier steps';
+
+  return (
+    <div className={styles.pvHitl}>
+      <div className={styles.pvHitlFlag}>{statusLabel}</div>
+      <div className={styles.pvHitlTitle}>{title}</div>
+      <div className={styles.pvHitlBody}>{body}</div>
+      <div className={styles.pvHitlActions}>
+        {actions.map((a, i) => {
+          const cls =
+            i === 0 ? styles.pvBtnPrimary :
+            (i === actions.length - 1 && actions.length > 2) ? styles.pvBtnDanger : styles.pvBtnSecondary;
+          const handler = handlerFor(i);
+          const disabled = !live || !handler;
+          return (
+            <button
+              key={a}
+              className={`${styles.pvBtn} ${cls}`}
+              disabled={disabled}
+              onClick={handler ?? undefined}
+              title={!live ? 'Available when this substep is the active workflow step' : undefined}
+            >
+              {a}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 interface DocumentsOutputProps {
   summaryDefault: string;

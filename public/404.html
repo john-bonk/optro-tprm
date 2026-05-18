@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Optro · TPRM</title>
+    <script>
+      // SPA redirect for GitHub Pages — rewrites a deep-link 404 into a
+      // single-segment URL that index.html unpacks on load. Pattern from
+      // rafgraph/spa-github-pages.
+      var segments = 1; // depth of the GitHub Pages project path
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + segments).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(segments).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

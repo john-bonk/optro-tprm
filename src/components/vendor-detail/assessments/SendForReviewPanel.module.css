@@ -1,0 +1,176 @@
+/* Send-for-review reuses the SendGapsPanel scrim/panel/header chrome via the
+   shared module — the styles below only define the panel-specific bits
+   (reviewer list, package card, footer). */
+
+.headerIconReview {
+  background: var(--green-emerald);
+}
+
+/* Reviewer list */
+.reviewerList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.reviewerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .12s;
+}
+.reviewerRow:hover { border-color: var(--border-input); }
+.reviewerAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.reviewerInfo {
+  flex: 1;
+  min-width: 0;
+}
+.reviewerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.reviewerMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.reviewerSep { color: var(--text-disabled); }
+.reviewerEmail { font-family: var(--font-mono); font-size: 11.5px; }
+
+.questionnairePill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--green-bg-soft);
+  color: var(--green-text);
+  flex-shrink: 0;
+}
+
+/* Sign-off package summary card */
+.packageCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--green-bg-soft);
+  border: 1px solid var(--green-border);
+}
+.packageCardIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--green-emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.packageCardText { flex: 1; min-width: 0; }
+.packageCardTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--green-text);
+}
+.packageCardMeta {
+  font-size: 12px;
+  color: var(--green-text);
+  opacity: 0.82;
+  margin-top: 2px;
+}
+.previewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--green-text);
+  border: 1px solid var(--green-border);
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: background .12s;
+}
+.previewLink:hover {
+  background: #fff;
+}
+
+/* Reminder cadence banner */
+.reminderBanner {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--bg-warm-soft);
+  border: 1px solid var(--border);
+}
+.reminderIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.reminderText {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.reminderText strong { color: var(--text); font-weight: 600; }
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  flex-shrink: 0;
+}
+.cancelBtn {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+.cancelBtn:hover { background: var(--bg-warm-soft); border-color: var(--text-faint); }
+.sendBtn {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--navy);
+  background: var(--navy);
+  color: #fff;
+}
+.sendBtn:hover:not(:disabled) { background: var(--navy-hover); border-color: var(--navy-hover); }
+.sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }

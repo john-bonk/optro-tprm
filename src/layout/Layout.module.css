@@ -6,8 +6,11 @@
 }
 
 .main {
-  overflow-y: auto;
+  /* Scroll is now owned by each page (so vendor detail can pin its hero +
+     tab bar while only the tab content scrolls). */
+  overflow: hidden;
   background: var(--bg-warm);
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }

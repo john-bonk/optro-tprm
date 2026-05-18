@@ -1,9 +1,21 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import styles from './Topbar.module.css';
+import { getAssessment } from '../data/assessments';
 
 function Breadcrumb() {
   const { pathname } = useLocation();
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const openedAssessmentId = searchParams.get('assessment');
+  const openedAssessment = openedAssessmentId ? getAssessment(openedAssessmentId) : null;
+
+  const closeAssessment = () => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      next.delete('assessment');
+      return next;
+    });
+  };
 
   if (pathname.startsWith('/settings')) {
     return (
@@ -17,6 +29,18 @@ function Breadcrumb() {
     );
   }
 
+  if (pathname.startsWith('/inbox')) {
+    return (
+      <nav className={styles.breadcrumb}>
+        <a className={styles.link}>Solutions</a>
+        <span className={styles.sep}>›</span>
+        <a className={styles.link}>TPRM</a>
+        <span className={styles.sep}>›</span>
+        <span className={styles.current}>Inbox</span>
+      </nav>
+    );
+  }
+
   if (pathname.startsWith('/vendors/') && params.vendorId) {
     return (
       <nav className={styles.breadcrumb}>
@@ -26,7 +50,17 @@ function Breadcrumb() {
         <span className={styles.sep}>›</span>
         <Link className={styles.link} to="/vendors">Vendors</Link>
         <span className={styles.sep}>›</span>
-        <span className={styles.current}>Acme Cloud Co.</span>
+        {openedAssessment ? (
+          <>
+            <a className={styles.link} onClick={closeAssessment}>Acme Cloud Co.</a>
+            <span className={styles.sep}>›</span>
+            <a className={styles.link} onClick={closeAssessment}>Assessments</a>
+            <span className={styles.sep}>›</span>
+            <span className={styles.current}>{openedAssessment.name}</span>
+          </>
+        ) : (
+          <span className={styles.current}>Acme Cloud Co.</span>
+        )}
       </nav>
     );
   }

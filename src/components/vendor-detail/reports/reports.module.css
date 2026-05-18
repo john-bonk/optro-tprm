@@ -1,0 +1,194 @@
+.body { padding: 24px 30px 40px; display: flex; flex-direction: column; gap: 18px; }
+
+.readyBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--green-bg-soft);
+  border: 1px solid var(--green-border);
+  border-radius: 10px;
+}
+.readyBannerIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green-emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.readyBannerText {
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--green-text);
+  line-height: 1.5;
+}
+.readyBannerText strong { color: var(--green-text); font-weight: 700; }
+
+.pendingBanner {
+  padding: 12px 18px;
+  background: var(--bg-warm-soft);
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+}
+.pendingBannerText {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px 24px;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  transition: border-color .12s, box-shadow .12s;
+}
+.card:hover { border-color: var(--border-input); }
+.cardPrimary {
+  grid-column: 1 / -1;
+  border-color: var(--sky-soft);
+  background: linear-gradient(180deg, #F7FAFE 0%, #FFFFFF 100%);
+}
+
+.cardIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: var(--indigo-bg);
+  color: var(--indigo);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cardPrimary .cardIcon { background: var(--navy); color: #fff; }
+
+.cardBody { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.cardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.cardDesc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.generateBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 7px;
+  border: 1px solid var(--border-input);
+  background: #fff;
+  color: var(--text);
+  transition: background .12s, border-color .12s;
+}
+.generateBtn:hover:not(:disabled) {
+  background: var(--bg-warm-soft);
+  border-color: var(--text-faint);
+}
+.generateBtnPrimary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.generateBtnPrimary:hover:not(:disabled) {
+  background: var(--navy-hover);
+  border-color: var(--navy-hover);
+}
+.generateBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.footnote {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-top: 6px;
+  line-height: 1.55;
+}
+.footnoteLink {
+  color: var(--sky-text);
+  cursor: pointer;
+}
+.footnoteLink:hover { text-decoration: underline; }
+
+/* Locked empty state — shown before workflow reaches report_pending. */
+.lockedEmpty {
+  background: #fff;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 56px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.lockedEmptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--surface-mute);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.lockedEmptyTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.lockedEmptyBody {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 520px;
+}

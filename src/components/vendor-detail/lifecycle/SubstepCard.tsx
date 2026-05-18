@@ -43,7 +43,6 @@ export default function SubstepCard({ substep, index, expanded, status, onToggle
           )}
         </span>
         <span className={`${styles.substepTag} ${tagClass}`}>{substep.type}</span>
-        <span className={styles.substepPattern}>{substep.pattern}</span>
         <svg className={styles.substepChev} viewBox="0 0 16 16" fill="none">
           <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -51,7 +50,7 @@ export default function SubstepCard({ substep, index, expanded, status, onToggle
       {expanded && (
         <div className={styles.substepBody}>
           <div className={styles.previewLabel}>UI pattern output · {substep.pattern}</div>
-          <SubstepOutputRenderer out={substep.out} />
+          <SubstepOutputRenderer substep={substep} status={status} />
         </div>
       )}
     </div>

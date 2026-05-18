@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:gh-pages": "GH_PAGES_BASE=/optro-tprm/ tsc -b && GH_PAGES_BASE=/optro-tprm/ vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
