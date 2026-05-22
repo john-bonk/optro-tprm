@@ -108,7 +108,6 @@ type Action =
 // code so we can flip back without code surgery.
 // ─────────────────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const INITIAL_STATE_FULL_INTAKE: State = {
   selectedTier: 2,
   tierAccepted: false,
@@ -180,7 +179,13 @@ const INITIAL_STATE_SKIP_INTAKE: State = {
   reportViewerOpen: false,
 };
 
-const initialState: State = INITIAL_STATE_SKIP_INTAKE;
+// Both initial-state shapes kept here so we can flip back to the full
+// intake flow by swapping the key below — no code surgery needed.
+const INITIAL_STATES: Record<'fullIntake' | 'skipIntake', State> = {
+  fullIntake: INITIAL_STATE_FULL_INTAKE,
+  skipIntake: INITIAL_STATE_SKIP_INTAKE,
+};
+const initialState: State = INITIAL_STATES.skipIntake;
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
