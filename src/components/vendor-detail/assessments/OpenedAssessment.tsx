@@ -148,11 +148,14 @@ function InProgressView({ def, onBack }: { def: AssessmentDef; onBack: () => voi
     state.workflowPhase === 'report_pending' ||
     state.workflowPhase === 'monitoring_active';
 
-  const [questionStatuses, setQuestionStatuses] = useState<Record<string, QuestionStatus>>(
+  // TPRM-internal drilldown is read-only on accept/gap state — reviewers do
+  // the deciding in the review phase. Derive statuses from QUESTIONS once.
+  const questionStatuses = useMemo<Record<string, QuestionStatus>>(
     () => Object.fromEntries(currentQuestions.map(q => [
       q.id,
       preAccepted && q.status === 'drafted' ? ('approved' as QuestionStatus) : q.status,
-    ]))
+    ])),
+    [currentQuestions, preAccepted]
   );
   const [filter, setFilter] = useState<Filter>('all');
 
@@ -212,19 +215,6 @@ function InProgressView({ def, onBack }: { def: AssessmentDef; onBack: () => voi
                         'AI DRAFTING';
   const draftedPct = Math.round((progressData.draftedCount / def.totalQuestions) * 100);
 
-  // Number of currently-drafted (not yet accepted, non-gap) questions in view.
-  const draftedToAcceptCount = Object.values(questionStatuses).filter(s => s === 'drafted').length;
-
-  const acceptAllDrafted = () => {
-    setQuestionStatuses(prev => {
-      const next: Record<string, QuestionStatus> = { ...prev };
-      Object.keys(prev).forEach(id => {
-        if (prev[id] === 'drafted') next[id] = 'approved';
-      });
-      return next;
-    });
-  };
-
   return (
     <div className={styles.openedLayout}>
       <div className={styles.openedMain}>
@@ -237,16 +227,6 @@ function InProgressView({ def, onBack }: { def: AssessmentDef; onBack: () => voi
             </div>
             <div className={styles.openedActions}>
               <button className={styles.btnSecondary}>Re-draft all</button>
-              <button
-                className={styles.btnPrimary}
-                onClick={acceptAllDrafted}
-                disabled={draftedToAcceptCount === 0}
-                title={draftedToAcceptCount === 0 ? 'Nothing left to accept' : `Accept ${draftedToAcceptCount} drafted answers`}
-              >
-                {draftedToAcceptCount === 0
-                  ? 'All accepted'
-                  : `Accept all  ${draftedToAcceptCount}`}
-              </button>
               {progressData.gapCount > 0 && (
                 <button className={styles.btnPrimary}>Send  {progressData.gapCount}  gaps to Acme</button>
               )}
@@ -311,7 +291,6 @@ function InProgressView({ def, onBack }: { def: AssessmentDef; onBack: () => voi
               key={q.id}
               question={q}
               currentStatus={questionStatuses[q.id]}
-              onChangeStatus={(s) => setQuestionStatuses(prev => ({ ...prev, [q.id]: s }))}
             />
           ))}
           {filtered.length === 0 && (
@@ -328,10 +307,13 @@ function InProgressView({ def, onBack }: { def: AssessmentDef; onBack: () => voi
 interface QCardProps {
   question: Question;
   currentStatus: QuestionStatus;
-  onChangeStatus: (s: QuestionStatus) => void;
 }
 
-function QuestionCard({ question, currentStatus, onChangeStatus }: QCardProps) {
+// TPRM-internal drilldown — read-only with respect to accept/gap state.
+// Accept / Mark-as-gap belong to reviewers in the review phase; this view
+// surfaces the AI-drafted answer + source + comments for context only.
+// Re-draft remains since that's a TPRM action upstream of review.
+function QuestionCard({ question, currentStatus }: QCardProps) {
   const [expanded, setExpanded] = useState(true);
   const isGap = currentStatus === 'gap';
   const isApproved = currentStatus === 'approved';
@@ -375,30 +357,7 @@ function QuestionCard({ question, currentStatus, onChangeStatus }: QCardProps) {
               : <span className={styles.qSourcePillEmpty}>no source found</span>}
           </div>
           <div className={styles.qActions}>
-            {!isGap ? (
-              <>
-                <button
-                  className={`${styles.qBtn} ${styles.qBtnPrimary} ${isApproved ? styles.qBtnSelected : ''}`}
-                  onClick={() => onChangeStatus('approved')}
-                >
-                  {isApproved ? 'Accepted (selected)' : 'Accept'}
-                </button>
-                <button className={`${styles.qBtn} ${styles.qBtnDanger}`} onClick={() => onChangeStatus('gap')}>
-                  Mark as gap
-                </button>
-                <button className={`${styles.qBtn} ${styles.qBtnSecondary}`}>Re-draft</button>
-              </>
-            ) : (
-              <>
-                <button className={`${styles.qBtn} ${styles.qBtnPrimary} ${styles.qBtnSelected}`}>
-                  Marked as gap (selected)
-                </button>
-                <button className={`${styles.qBtn} ${styles.qBtnSecondary}`} onClick={() => onChangeStatus('approved')}>
-                  Accept as-is
-                </button>
-                <button className={`${styles.qBtn} ${styles.qBtnSecondary}`}>Re-draft</button>
-              </>
-            )}
+            <button className={`${styles.qBtn} ${styles.qBtnSecondary}`}>Re-draft</button>
             <div className={styles.qConfidence}>
               AI confidence · <strong>{question.confidence}</strong>
             </div>

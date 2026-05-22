@@ -389,6 +389,248 @@
 }
 .qTotals strong { color: var(--text); font-weight: 600; }
 
+/* Question-level review drilldown */
+.bulkRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.bulkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 7px;
+  border: 1px solid;
+  cursor: pointer;
+}
+.bulkBtnSmall {
+  font-size: 12.5px;
+  padding: 6px 12px;
+}
+.bulkBtnAccept {
+  background: var(--green-emerald);
+  border-color: var(--green-emerald);
+  color: #fff;
+}
+.bulkBtnAccept:hover { background: var(--green-deep); border-color: var(--green-deep); }
+.bulkBtnReject {
+  background: #fff;
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+.bulkBtnReject:hover { background: var(--danger-bg-soft); border-color: var(--danger-solid); }
+
+.qSelector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.qSelectorBtn {
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+}
+.qSelectorBtn:hover { border-color: var(--text-faint); }
+.qSelectorBtnActive { border-color: var(--navy); background: var(--bg-warm-soft); }
+.qSelectorName { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.005em; }
+.qSelectorMeta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  letter-spacing: .04em;
+}
+
+.qMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.qMeta strong { color: var(--text); }
+.qMetaSpacer { flex: 1; }
+
+.qSampleNote {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: var(--bg-warm-soft);
+  border-left: 3px solid var(--border-strong);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 14px;
+}
+
+.qReviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.qReviewCard {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.qReviewCard::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: transparent;
+  border-radius: 8px 0 0 8px;
+}
+.qReviewCardAccepted::before { background: var(--green-emerald); }
+.qReviewCardRejected::before { background: var(--danger-solid); }
+
+.qReviewHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.qReviewNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: .04em;
+}
+.qReviewText {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+.qReviewStatus {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.qReviewStatus[data-status="accepted"] { background: var(--green-bg-soft); color: var(--green-text); }
+.qReviewStatus[data-status="rejected"] { background: var(--danger-bg);      color: var(--danger-text); }
+.qReviewStatus[data-status="pending"]  { background: var(--surface-mute);    color: var(--text-muted); }
+
+.qReviewAnswer {
+  padding: 11px 14px;
+  background: var(--bg-warm-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.qReviewSourceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.qReviewSource {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--indigo-bg);
+  color: var(--indigo);
+}
+.qReviewSourceEmpty {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--surface-mute);
+  color: var(--text-disabled);
+}
+.qReviewConfidence { margin-left: auto; }
+.qReviewConfidence strong { color: var(--text); font-weight: 600; }
+
+.qReviewActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.reviewBtn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid;
+  cursor: pointer;
+}
+.reviewBtnAccept {
+  background: #fff;
+  border-color: var(--green-border);
+  color: var(--green-text);
+}
+.reviewBtnAccept:hover { background: var(--green-bg-soft); }
+.reviewBtnAccept.reviewBtnSelected {
+  background: var(--green-emerald);
+  border-color: var(--green-emerald);
+  color: #fff;
+}
+.reviewBtnReject {
+  background: #fff;
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+.reviewBtnReject:hover { background: var(--danger-bg-soft); }
+.reviewBtnReject.reviewBtnSelected {
+  background: var(--danger-solid);
+  border-color: var(--danger-solid);
+  color: #fff;
+}
+.reviewBtnGhost {
+  font-size: 12.5px;
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.reviewBtnGhost:hover { color: var(--text); text-decoration: underline; }
+.reviewCommentLink {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--sky-text);
+  cursor: pointer;
+}
+.reviewCommentLink:hover { text-decoration: underline; }
+
+.qReviewFooter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  text-align: right;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.qReviewFooter strong { color: var(--text); font-weight: 600; }
+
 /* Findings */
 .findingList {
   display: flex;

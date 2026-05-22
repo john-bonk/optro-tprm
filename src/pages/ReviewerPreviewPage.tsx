@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react';
 import styles from './ReviewerPreviewPage.module.css';
-import { ASSESSMENTS, REVIEWERS } from '../data/assessments';
+import { ASSESSMENTS, QUESTIONS, REVIEWERS, VENDOR_RESPONSES, type Question } from '../data/assessments';
+
+// Per-question decision in the reviewer view. Mirrors the TPRM drilldown's
+// status enum but with reviewer semantics — pending → accepted | rejected.
+type ReviewDecision = 'pending' | 'accepted' | 'rejected';
 
 // Reviewer "certify view" — what a TPRM reviewer (Sarah/James/Maya) sees
 // when they click the magic link from the Send-for-review email. Preview-only:
@@ -174,29 +178,11 @@ export default function ReviewerPreviewPage() {
             </div>
           </section>
 
-          {/* Questionnaire package */}
-          <section className={styles.card}>
-            <div className={styles.cardHead}>QUESTIONNAIRE PACKAGE</div>
-            <div className={styles.qList}>
-              {ASSESSMENTS.map(def => (
-                <div key={def.id} className={styles.qRow}>
-                  <div className={styles.qInfo}>
-                    <div className={styles.qName}>{def.name}</div>
-                    <div className={styles.qSub}>{def.sub}</div>
-                  </div>
-                  <div className={styles.qStat}>
-                    <span className={styles.qAccepted}>{def.totalQuestions} accepted</span>
-                    <span className={styles.qSep}>·</span>
-                    <span>0 gaps</span>
-                  </div>
-                  <a className={styles.qReview}>Review answers →</a>
-                </div>
-              ))}
-            </div>
-            <div className={styles.qTotals}>
-              <strong>{totalQuestions} questions · {totalQuestions} accepted · 0 outstanding</strong>
-            </div>
-          </section>
+          {/* Question-level review drilldown — the reviewer's primary
+              decision surface. Per-question accept/reject and bulk
+              accept/reject all live here. */}
+          <QuestionReview totalQuestions={totalQuestions} />
+
 
           {/* Findings */}
           <section className={styles.card}>
@@ -314,3 +300,190 @@ function barColor(v: number) {
   if (v >= 50) return 'var(--t2-text)';
   return 'var(--green-emerald)';
 }
+
+// ──────────────────────────────────────────────────────────────
+// QUESTION REVIEW — per-questionnaire drilldown with per-question
+// Accept/Reject and bulk Accept all / Reject all controls.
+// ──────────────────────────────────────────────────────────────
+
+interface QuestionReviewProps { totalQuestions: number }
+
+function QuestionReview({ totalQuestions }: QuestionReviewProps) {
+  const [activeAssessmentId, setActiveAssessmentId] = useState(ASSESSMENTS[0].id);
+  const activeAssessment = ASSESSMENTS.find(a => a.id === activeAssessmentId)!;
+
+  // Questions are presented as a representative slice of each questionnaire
+  // (same convention as the TPRM drilldown). Reviewer decisions are keyed by
+  // questionnaire id + question id so switching questionnaires doesn't lose
+  // state.
+  const visibleQuestions = useMemo<Question[]>(() => {
+    return QUESTIONS.map(q => q.status === 'gap'
+      ? { ...q, status: 'drafted' as const, draftAnswer: VENDOR_RESPONSES[q.id] ?? q.draftAnswer, source: 'Vendor response', confidence: 'High' as const }
+      : q);
+  }, []);
+
+  const [decisions, setDecisions] = useState<Record<string, ReviewDecision>>({});
+  const keyOf = (qid: string) => `${activeAssessmentId}::${qid}`;
+  const decisionFor = (qid: string): ReviewDecision => decisions[keyOf(qid)] ?? 'pending';
+
+  const setDecision = (qid: string, d: ReviewDecision) => {
+    setDecisions(prev => ({ ...prev, [keyOf(qid)]: d }));
+  };
+
+  const acceptAllInActive = () => {
+    setDecisions(prev => {
+      const next = { ...prev };
+      visibleQuestions.forEach(q => { next[keyOf(q.id)] = 'accepted'; });
+      return next;
+    });
+  };
+  const rejectAllInActive = () => {
+    setDecisions(prev => {
+      const next = { ...prev };
+      visibleQuestions.forEach(q => { next[keyOf(q.id)] = 'rejected'; });
+      return next;
+    });
+  };
+  const acceptAllInPackage = () => {
+    setDecisions(prev => {
+      const next = { ...prev };
+      ASSESSMENTS.forEach(a => visibleQuestions.forEach(q => { next[`${a.id}::${q.id}`] = 'accepted'; }));
+      return next;
+    });
+  };
+  const rejectAllInPackage = () => {
+    setDecisions(prev => {
+      const next = { ...prev };
+      ASSESSMENTS.forEach(a => visibleQuestions.forEach(q => { next[`${a.id}::${q.id}`] = 'rejected'; }));
+      return next;
+    });
+  };
+
+  // Tallies for the current questionnaire + the whole package.
+  const tally = (prefix: string) => {
+    let accepted = 0;
+    let rejected = 0;
+    Object.entries(decisions).forEach(([k, v]) => {
+      if (!k.startsWith(prefix)) return;
+      if (v === 'accepted') accepted += 1;
+      if (v === 'rejected') rejected += 1;
+    });
+    return { accepted, rejected };
+  };
+  const activeTally  = tally(`${activeAssessmentId}::`);
+  const packageTally = ASSESSMENTS.reduce((acc, a) => {
+    const t = tally(`${a.id}::`);
+    return { accepted: acc.accepted + t.accepted, rejected: acc.rejected + t.rejected };
+  }, { accepted: 0, rejected: 0 });
+
+  return (
+    <section className={styles.card}>
+      <div className={styles.cardHeadRow}>
+        <span className={styles.cardHead}>QUESTION-LEVEL REVIEW</span>
+        <span className={styles.cardCount}>
+          {packageTally.accepted} accepted · {packageTally.rejected} rejected · {totalQuestions - packageTally.accepted - packageTally.rejected} pending
+        </span>
+      </div>
+
+      {/* Package-level bulk controls */}
+      <div className={styles.bulkRow}>
+        <button className={`${styles.bulkBtn} ${styles.bulkBtnAccept}`} onClick={acceptAllInPackage}>
+          Accept all questionnaires
+        </button>
+        <button className={`${styles.bulkBtn} ${styles.bulkBtnReject}`} onClick={rejectAllInPackage}>
+          Reject all questionnaires
+        </button>
+      </div>
+
+      {/* Questionnaire selector */}
+      <div className={styles.qSelector}>
+        {ASSESSMENTS.map(a => {
+          const t = tally(`${a.id}::`);
+          const active = a.id === activeAssessmentId;
+          return (
+            <button
+              key={a.id}
+              className={`${styles.qSelectorBtn} ${active ? styles.qSelectorBtnActive : ''}`}
+              onClick={() => setActiveAssessmentId(a.id)}
+            >
+              <div className={styles.qSelectorName}>{a.name}</div>
+              <div className={styles.qSelectorMeta}>
+                {a.totalQuestions} questions · {t.accepted}✓ · {t.rejected}✗
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Per-questionnaire bulk controls + meta */}
+      <div className={styles.qMeta}>
+        <span><strong>{activeAssessment.name}</strong> · {activeAssessment.sub}</span>
+        <span className={styles.qMetaSpacer} />
+        <button className={`${styles.bulkBtn} ${styles.bulkBtnAccept} ${styles.bulkBtnSmall}`} onClick={acceptAllInActive}>
+          Accept all {activeAssessment.totalQuestions}
+        </button>
+        <button className={`${styles.bulkBtn} ${styles.bulkBtnReject} ${styles.bulkBtnSmall}`} onClick={rejectAllInActive}>
+          Reject all {activeAssessment.totalQuestions}
+        </button>
+      </div>
+
+      <div className={styles.qSampleNote}>
+        Showing a representative {visibleQuestions.length}-question slice of the {activeAssessment.totalQuestions}-question {activeAssessment.name} questionnaire. Per-question decisions persist across questionnaires for this preview.
+      </div>
+
+      {/* Question cards */}
+      <div className={styles.qReviewList}>
+        {visibleQuestions.map(q => {
+          const d = decisionFor(q.id);
+          return (
+            <article
+              key={q.id}
+              className={`${styles.qReviewCard} ${d === 'accepted' ? styles.qReviewCardAccepted : d === 'rejected' ? styles.qReviewCardRejected : ''}`}
+            >
+              <header className={styles.qReviewHead}>
+                <span className={styles.qReviewNum}>{q.num}</span>
+                <div className={styles.qReviewText}>{q.text}</div>
+                {d === 'accepted' && <span className={styles.qReviewStatus} data-status="accepted">ACCEPTED</span>}
+                {d === 'rejected' && <span className={styles.qReviewStatus} data-status="rejected">REJECTED</span>}
+                {d === 'pending'  && <span className={styles.qReviewStatus} data-status="pending">PENDING</span>}
+              </header>
+              <div className={styles.qReviewAnswer}>{q.draftAnswer}</div>
+              <div className={styles.qReviewSourceRow}>
+                <span>Sourced from:</span>
+                {q.source
+                  ? <span className={styles.qReviewSource}>{q.source}</span>
+                  : <span className={styles.qReviewSourceEmpty}>no source found</span>}
+                <span className={styles.qReviewConfidence}>AI confidence · <strong>{q.confidence}</strong></span>
+              </div>
+              <div className={styles.qReviewActions}>
+                <button
+                  className={`${styles.reviewBtn} ${styles.reviewBtnAccept} ${d === 'accepted' ? styles.reviewBtnSelected : ''}`}
+                  onClick={() => setDecision(q.id, 'accepted')}
+                >
+                  {d === 'accepted' ? '✓ Accepted' : 'Accept'}
+                </button>
+                <button
+                  className={`${styles.reviewBtn} ${styles.reviewBtnReject} ${d === 'rejected' ? styles.reviewBtnSelected : ''}`}
+                  onClick={() => setDecision(q.id, 'rejected')}
+                >
+                  {d === 'rejected' ? '✗ Rejected' : 'Reject'}
+                </button>
+                {d !== 'pending' && (
+                  <button className={styles.reviewBtnGhost} onClick={() => setDecision(q.id, 'pending')}>
+                    Clear
+                  </button>
+                )}
+                <span className={styles.reviewCommentLink}>Add comment</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <div className={styles.qReviewFooter}>
+        <strong>{activeTally.accepted}</strong> accepted · <strong>{activeTally.rejected}</strong> rejected · <strong>{visibleQuestions.length - activeTally.accepted - activeTally.rejected}</strong> pending in this questionnaire
+      </div>
+    </section>
+  );
+}
+

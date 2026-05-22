@@ -90,7 +90,9 @@ function VendorDetailInner() {
             tone: 'sky' as const,
             label: 'Profile',
             onClick: () => { setTab('profile'); clearAssessmentParam(); },
-            homeTabs: ['profile'] as VendorTab[],
+            // Overview's TierCalloutBlock and Profile's AITierBlock both
+            // host the in-tab CTA — hero collapses on either.
+            homeTabs: ['overview', 'profile'] as VendorTab[],
             hideAction: false,
           };
         }
@@ -109,10 +111,10 @@ function VendorDetailInner() {
           tone: 'amber' as const,
           label: 'Profile',
           // Profile hosts the full AI Tier Classification block (signals,
-          // Accept, Override). The hero is a router — only the Profile tab's
-          // in-block CTA actually fires acceptTier().
+          // Accept, Override). Overview's TierCalloutBlock has its own
+          // routing CTA. Hero collapses on either to avoid duplication.
           onClick: () => { setTab('profile'); clearAssessmentParam(); },
-          homeTabs: ['profile'] as VendorTab[],
+          homeTabs: ['overview', 'profile'] as VendorTab[],
           hideAction: false,
         };
       case 'docs_pending':
