@@ -161,8 +161,8 @@ export default function VendorListPage() {
                   <div className={styles.cell}>{v.spend}</div>
                   <div className={styles.cell}>{v.date}</div>
                   <div className={`${styles.cell} ${styles.actions}`}>
-                    <button className={styles.actionAccept} onClick={() => acceptVendor(v.id)}>Accept</button>
-                    <button className={styles.actionReject} onClick={() => rejectVendor(v.id)}>Reject</button>
+                    <button className={styles.actionAccept} onClick={() => acceptVendor(v.id)}>Engage</button>
+                    <button className={styles.actionReject} onClick={() => rejectVendor(v.id)}>Decline</button>
                   </div>
                 </div>
               );
