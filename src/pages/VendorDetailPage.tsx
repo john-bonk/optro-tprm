@@ -11,7 +11,6 @@ import AssessmentsTab from '../components/vendor-detail/tabs/AssessmentsTab';
 import ReportsTab from '../components/vendor-detail/tabs/ReportsTab';
 import SendGapsPanel from '../components/vendor-detail/assessments/SendGapsPanel';
 import SendForReviewPanel from '../components/vendor-detail/assessments/SendForReviewPanel';
-import { TOTAL_GAPS } from '../data/assessments';
 import type { VendorTab } from '../types';
 
 type TabDef =
@@ -74,7 +73,7 @@ function VendorDetailInner() {
         return {
           status: 'Setup pending',
           tone: 'amber' as const,
-          label: 'Set up profile',
+          label: 'Overview',
           // Overview and Profile both host the dual-action setup CTAs; the
           // hero collapses on either so it never duplicates an in-tab control.
           onClick: () => { setTab('overview'); clearAssessmentParam(); },
@@ -89,7 +88,7 @@ function VendorDetailInner() {
           return {
             status: 'Ready to generate',
             tone: 'sky' as const,
-            label: 'Generate tier',
+            label: 'Profile',
             onClick: () => { setTab('profile'); clearAssessmentParam(); },
             homeTabs: ['profile'] as VendorTab[],
             hideAction: false,
@@ -108,7 +107,7 @@ function VendorDetailInner() {
         return {
           status: 'Tier pending',
           tone: 'amber' as const,
-          label: `Accept Tier ${state.selectedTier}`,
+          label: 'Profile',
           // Profile hosts the full AI Tier Classification block (signals,
           // Accept, Override). The hero is a router — only the Profile tab's
           // in-block CTA actually fires acceptTier().
@@ -120,7 +119,7 @@ function VendorDetailInner() {
         return {
           status: 'Docs pending',
           tone: 'amber' as const,
-          label: 'Request missing docs',
+          label: 'Documents',
           onClick: () => { setTab('documents'); clearAssessmentParam(); },
           // Overview hosts the Required Docs Block CTA — collapse the hero there too.
           homeTabs: ['overview', 'documents'] as VendorTab[],
@@ -130,7 +129,7 @@ function VendorDetailInner() {
         return {
           status: 'Ready to assess',
           tone: 'sky' as const,
-          label: 'Start Assessments',
+          label: 'Assessments',
           // Hero button is a router only — the in-tab CTA actually fires startAssessments().
           onClick: () => { setTab('assessments'); clearAssessmentParam(); },
           homeTabs: ['overview', 'assessments'] as VendorTab[],
@@ -140,10 +139,10 @@ function VendorDetailInner() {
         return {
           status: 'Gaps awaiting',
           tone: 'indigo' as const,
-          label: `Send ${TOTAL_GAPS} gaps to vendor`,
-          // On Assessments the banner CTA is the action — hero collapses to status only.
-          // From any other tab, the button opens the same SendGapsPanel.
-          onClick: () => { openSendGapsPanel(); },
+          label: 'Assessments',
+          // Route to Assessments and open the SendGapsPanel; the panel is
+          // contextually tied to the Assessments tab so we land there first.
+          onClick: () => { setTab('assessments'); clearAssessmentParam(); openSendGapsPanel(); },
           homeTabs: ['assessments'] as VendorTab[],
           hideAction: false,
         };
@@ -161,7 +160,7 @@ function VendorDetailInner() {
         return {
           status: 'Ready for review',
           tone: 'sky' as const,
-          label: 'Send for review',
+          label: 'Assessments',
           // Assessments tab hosts the banner CTA + a persistent toolbar CTA —
           // hero collapses there to avoid redundancy.
           onClick: () => { setTab('assessments'); clearAssessmentParam(); openSendForReviewPanel(); },
@@ -182,7 +181,7 @@ function VendorDetailInner() {
         return {
           status: 'Ready to report',
           tone: 'sky' as const,
-          label: 'Generate Report',
+          label: 'Reports',
           // Overview's ReportBlock and the Reports tab both host Generate-Report CTAs.
           onClick: () => { setTab('reports'); clearAssessmentParam(); },
           homeTabs: ['overview', 'reports'] as VendorTab[],
