@@ -3,7 +3,9 @@ import { useWorkflow } from '../../../state/WorkflowContext';
 import { ASSESSMENTS, IN_PROGRESS_STATE } from '../../../data/assessments';
 import styles from './SendGapsPanel.module.css';
 
-const PORTAL_URL = '/portal/gaps';
+// Honor the Vite base path so the preview link works under any deploy
+// root (e.g. /optro-tprm/ on GitHub Pages, / locally).
+const PORTAL_URL = `${import.meta.env.BASE_URL}portal/gaps`;
 const AI_DRAFT_INTRO = `Hi Acme team — we drafted answers for most of our security review from the docs you shared. A handful of questions still need your input. The link below opens a focused page (~10 min, expires in 14 days). Answers come straight back to us — no login required.`;
 
 export default function SendGapsPanel() {

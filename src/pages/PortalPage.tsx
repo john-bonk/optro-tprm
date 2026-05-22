@@ -9,7 +9,7 @@ export default function PortalPage() {
   const [portalState, setPortalState] = useState<PortalState>('initial');
 
   const onBack = () => {
-    window.location.href = '/vendors/acme';
+    window.location.href = `${import.meta.env.BASE_URL}vendors/acme`;
   };
 
   return (

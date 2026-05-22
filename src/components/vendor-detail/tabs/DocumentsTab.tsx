@@ -219,7 +219,7 @@ export default function DocumentsTab() {
                   className={styles.dropdownOption}
                   onClick={() => {
                     setDropdownOpen(false);
-                    window.open('/trust-center', '_blank');
+                    window.open(`${import.meta.env.BASE_URL}trust-center`, '_blank');
                   }}
                 >
                   <span className={styles.dropdownIcon}>

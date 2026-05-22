@@ -6,7 +6,8 @@ interface Props {
   onSend: () => void;
 }
 
-const PORTAL_URL = '/portal/upload';
+// Honor the Vite base path so the preview link works under any deploy root.
+const PORTAL_URL = `${import.meta.env.BASE_URL}portal/upload`;
 
 export default function SecureUploadPanel({ onClose, onSend }: Props) {
   useEffect(() => {

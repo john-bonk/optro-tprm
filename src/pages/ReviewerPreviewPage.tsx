@@ -59,7 +59,7 @@ export default function ReviewerPreviewPage() {
   );
 
   const onBack = () => {
-    window.location.href = '/vendors/acme';
+    window.location.href = `${import.meta.env.BASE_URL}vendors/acme`;
   };
 
   return (

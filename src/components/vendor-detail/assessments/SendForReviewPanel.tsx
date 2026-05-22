@@ -190,7 +190,7 @@ export default function SendForReviewPanel() {
             </div>
             <a
               className={styles.previewLink}
-              href="/reviewer-preview"
+              href={`${import.meta.env.BASE_URL}reviewer-preview`}
               target="_blank"
               rel="noopener noreferrer"
             >
