@@ -96,7 +96,20 @@ type Action =
   | { type: 'set_tab'; tab: VendorTab }
   | { type: 'add_activity'; title: string; time: string; accent?: 'ai'; pill?: string };
 
-const initialState: State = {
+// ─────────────────────────────────────────────────────────────────
+// Initial state — the demo now lands on the Overview at the AI-tier
+// acceptance step (Acme has been imported, profile auto-populated from
+// Zip, and the tier classification has already been generated). The
+// proto user's first interaction is accepting/overriding the tier.
+//
+// To restore the full intake flow (start at profile_pending with the
+// Auto-populate / Fill out manually dual-CTA), swap the active export
+// below with `INITIAL_STATE_FULL_INTAKE` — both shapes are kept in
+// code so we can flip back without code surgery.
+// ─────────────────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const INITIAL_STATE_FULL_INTAKE: State = {
   selectedTier: 2,
   tierAccepted: false,
   dataClassification: 'Internal',
@@ -126,6 +139,48 @@ const initialState: State = {
   monitoringSimStep: 0,
   reportViewerOpen: false,
 };
+
+// Skip-to-tier-acceptance variant: profile is already configured (auto),
+// tier has already been generated, and the user lands on the Overview
+// with the TierCalloutBlock visible. Profile tab shows the full
+// AITierBlock immediately — no Generate-tier click required.
+const INITIAL_STATE_SKIP_INTAKE: State = {
+  selectedTier: 2,
+  tierAccepted: false,
+  dataClassification: 'Internal',
+  profileConfigured: true,
+  profileConfigSource: 'auto',
+  profileManualPrimed: false,
+  profileAutoStarted: false,
+  tierGenerationStarted: true,
+  tierGenerated: true,
+  docsRequested: false,
+  workflowPhase: 'tier_pending',
+  lifecyclePhase: 'vendor_intake',
+  activeStep: 1,                              // Lifecycle stepper lands on Inherent Risk
+  expandedSubstep: -1,
+  activeTab: 'overview',
+  statusBannerTitle: 'Setup',
+  statusBannerMeta: 'AI tier suggestion ready · awaiting acceptance',
+  activity: [
+    { id: 1, title: 'Vendor imported from Zip',                  time: 'Today · 9:14 AM' },
+    { id: 2, title: 'Profile auto-populated from Zip',           time: 'Today · 9:15 AM' },
+    { id: 3, title: 'AI suggested Tier 2 classification',        time: 'Today · 9:16 AM', accent: 'ai', pill: '87% confidence' },
+  ],
+  nextActivityId: 4,
+  sendGapsPanelOpen: false,
+  sendForReviewPanelOpen: false,
+  gapsSent: false,
+  // Profile-configured banner is pre-dismissed so the Profile tab opens
+  // straight to the AITierBlock + populated Details — no stale "you just
+  // set up the profile" banner since that event is implied at startup.
+  dismissedBanners: { 'profile-configured': true },
+  bulkAcceptedAssessments: [],
+  monitoringSimStep: 0,
+  reportViewerOpen: false,
+};
+
+const initialState: State = INITIAL_STATE_SKIP_INTAKE;
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
