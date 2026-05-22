@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- GitHub Pages serves HTML with cache-control: max-age=600 and we can't
+         override server headers. These meta hints push compliant browsers to
+         revalidate the entry HTML on each navigation so a redeploy doesn't
+         get masked by a 10-minute stale cache. The hashed JS/CSS bundle is
+         still cached normally — only this HTML revalidates. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="app-build" content="%VITE_BUILD_ID%" />
     <title>Optro · TPRM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
